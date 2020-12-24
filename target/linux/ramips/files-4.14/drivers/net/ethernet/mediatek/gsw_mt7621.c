@@ -105,6 +105,11 @@ static void mt7621_hw_init(struct mt7620_gsw *gsw, struct device_node *np)
 	mtk_switch_w32(gsw, 0x2305e30b, GSW_REG_MAC_P0_MCR);
 	mt7530_mdio_w32(gsw, 0x3600, 0x5e30b);
 
+	/* disable flow control globally */
+	val = mt7530_mdio_r32(gsw, 0x1FE0);
+	val &= ~BIT(31);
+	mt7530_mdio_w32(gsw, 0x1FE0, val);
+
 	/* (GE2, Link down) */
 	mtk_switch_w32(gsw, 0x8000, GSW_REG_MAC_P1_MCR);
 
